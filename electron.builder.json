@@ -1,0 +1,18 @@
+{
+  "appId": "com.mohamed-mdj.electron-learning",
+  "productName": "Electron Learning",
+  "copyright": "Copyright © 2025 Mohamed MDJ",
+  "files": ["dist-electron", "dist-react"],
+  "extraResources": ["dist-electron/preload.cjs"],
+  "icon": "./app.png",
+  "mac": {
+    "target": ["dmg"]
+  },
+  "win": {
+    "target": ["portable", "msi"]
+  },
+  "linux": {
+    "target": ["AppImage"],
+    "category": "Utility"
+  }
+}

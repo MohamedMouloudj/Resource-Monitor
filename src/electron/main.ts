@@ -9,7 +9,7 @@ import { createMenu } from "./menu.js";
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
     width: 1000,
-    height: 800,
+    height: 850,
     // frame: false,
     webPreferences: {
       preload: getPreloadPath(),

@@ -103,10 +103,18 @@ export function getStaticData() {
   const totalStorage = getStoragedata().total;
   const totalMemory = Math.floor(os.totalmem() / 1024 / 1024 / 1024);
   const cpuModel = os.cpus()[0].model;
+  const platform = os.platform();
+  const arch = os.arch();
+  const cpuCores = os.cpus().length;
+  const nodeVersion = navigator.userAgent;
 
   return {
     totalStorage,
     totalMemory,
     cpuModel,
+    platform,
+    cpuCores,
+    arch,
+    nodeVersion,
   };
 }

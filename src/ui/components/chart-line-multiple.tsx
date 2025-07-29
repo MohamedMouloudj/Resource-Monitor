@@ -86,7 +86,7 @@ export function ChartLineMultiple({
   }, [rawData, maxPointCount]);
 
   return (
-    <Card className="w-full h-full rounded-none">
+    <Card className="w-full h-full rounded-md">
       <CardHeader>
         <CardTitle>Resource Usage</CardTitle>
         <CardDescription>

@@ -8,6 +8,10 @@ type StaticData = {
   totalStorage: number;
   totalMemory: number;
   cpuModel: string;
+  platform: string;
+  cpuCores: number;
+  arch: string;
+  nodeVersion: string;
 };
 
 type EventPayloadMapping = {

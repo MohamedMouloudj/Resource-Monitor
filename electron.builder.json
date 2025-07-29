@@ -2,17 +2,31 @@
   "appId": "com.mohamed-mdj.resource-monitor",
   "productName": "Resource Monitor",
   "copyright": "Copyright © 2025 Mohamed MDJ",
-  "files": ["dist-electron", "dist-react"],
-  "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],
-  "icon": "./app.png",
+  "files": ["dist-electron", "dist-react", "app.png"],
+  "extraResources": [
+    {
+      "from": "src/assets",
+      "to": "src/assets"
+    }
+  ],
   "mac": {
-    "target": ["dmg"]
+    "target": ["dmg"],
+    "icon": "./app.ico",
+    "category": "public.app-category.utilities"
   },
   "win": {
-    "target": ["portable", "msi"]
+    "target": ["nsis", "portable"],
+    "icon": "./app.png"
   },
   "linux": {
-    "target": ["AppImage"],
+    "target": ["AppImage", "deb"],
+    "icon": "./app.png",
     "category": "Utility"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortbook": true,
+    "createStartMenuShortcut": true
   }
 }

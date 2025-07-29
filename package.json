@@ -1,7 +1,7 @@
 {
-  "name": "electron-learning",
+  "name": "resource-monitor",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
@@ -12,9 +12,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "transpile:electron": "tsc -p src/electron/tsconfig.json",
-    "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac --arm64",
-    "dist:win": "npm run transpile:electron && npm run build && electron-builder --win --x64",
-    "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux --x64",
+    "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac",
+    "dist:win": "npm run transpile:electron && npm run build && electron-builder --win",
+    "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux",
+    "dist:all": "npm run transpile:electron && npm run build && electron-builder --mac --win --linux",
     "test:e2e": "playwright test",
     "test:unit": "vitest tests/unit"
   },

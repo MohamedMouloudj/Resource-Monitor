@@ -2,14 +2,24 @@ import { app, BrowserWindow } from "electron";
 import { ipcMainHandle, isDev } from "./util.js";
 import { getStaticData, pollResources } from "./resourceManage.js";
 
-import { getPreloadPath, getUIPath } from "./pathResolvers.js";
+import { getAppIconPath, getPreloadPath, getUIPath } from "./pathResolvers.js";
 import { createTray } from "./tray.js";
 import { createMenu } from "./menu.js";
+
+// Set the dock/taskbar icon (macOS)
+if (process.platform === "darwin") {
+  app.dock?.setIcon(getAppIconPath());
+}
+
+if (process.platform === "win32") {
+  app.setAppUserModelId("com.mohamed-mdj.resource-monitor");
+}
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
     width: 1000,
     height: 850,
+    icon: getAppIconPath(),
     // frame: false,
     webPreferences: {
       preload: getPreloadPath(),

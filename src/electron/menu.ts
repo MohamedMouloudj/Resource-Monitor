@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from "electron";
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from "electron";
 import { isDev } from "./util.js";
 
 export function createMenu(mainWindow: BrowserWindow) {
@@ -68,9 +68,9 @@ export function createMenu(mainWindow: BrowserWindow) {
             },
             accelerator: "CmdOrCtrl+M",
           },
-          {
-            type: "separator",
-          },
+          ...(isDev()
+            ? [{ type: "separator" } as any as MenuItemConstructorOptions]
+            : []),
           {
             label: "DevTools",
             click: () => mainWindow.webContents.openDevTools(),

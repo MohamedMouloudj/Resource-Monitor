@@ -143,6 +143,12 @@ npm run build
 - `npm run lint` - Run ESLint
 - `npm run type-check` - Run TypeScript type checking
 
+### Testing
+
+- **Unit Tests**: Vitest for testing individual components and functions
+- **E2E Tests**: Playwright for testing full application workflows including fullscreen toggling and tab navigation
+- **Test Coverage**: Covers tray menu functionality, fullscreen commands (F11/Escape), and UI interactions
+
 ### Architecture
 
 - **Main Process**: Handles system resource monitoring and IPC communication

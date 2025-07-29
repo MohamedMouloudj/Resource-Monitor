@@ -15,7 +15,8 @@
     "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac --arm64",
     "dist:win": "npm run transpile:electron && npm run build && electron-builder --win --x64",
     "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux --x64",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:unit": "vitest tests/unit"
   },
   "overrides": {
     "react-is": "^19.0.0-beta-26f2496093-20240514"
@@ -35,7 +36,8 @@
     "react-dom": "^19.1.0",
     "recharts": "^2.15.4",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "vitest": "^3.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",

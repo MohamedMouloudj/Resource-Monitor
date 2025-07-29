@@ -1,22 +1,24 @@
-name: Build and Release
+name: Release
 
 on:
   push:
     tags:
-      - "v*"
+      - "v*" # Triggers on version tags like v1.0.0
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
   release:
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
 
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
     steps:
-      - name: Checkout code
+      - name: Check out Git repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
@@ -25,46 +27,85 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build for ${{ matrix.os }}
+      - name: Build application
         run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            npm run dist:win
-          elif [ "${{ matrix.os }}" = "macos-latest" ]; then
-            npm run dist:mac
-          else
-            npm run dist:linux
-          fi
+          npm run transpile:electron
+          npm run build
 
-      - name: Upload artifacts
+      # Build the app (no signing)
+      - name: Build & Release (macOS)
+        if: startsWith(matrix.os, 'macos')
+        run: npm run dist:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Release (Windows)
+        if: startsWith(matrix.os, 'windows')
+        run: npm run dist:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Release (Linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: npm run dist:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Upload artifacts
+      - name: Upload artifacts (macOS)
+        if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ matrix.os }}
-          path: dist/
-          retention-days: 1
+          name: macos-build
+          path: |
+            dist/*.dmg
+            dist/*.zip
+            dist/*-mac.zip
+          retention-days: 7
 
+      - name: Upload artifacts (Windows)
+        if: startsWith(matrix.os, 'windows')
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: |
+            dist/*.exe
+            dist/*.msi
+            dist/*-win.zip
+          retention-days: 7
+
+      - name: Upload artifacts (Linux)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
+          path: |
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/*-linux.zip
+          retention-days: 7
+
+  # Create GitHub Release (runs after all builds complete)
   create-release:
     needs: release
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
 
     steps:
-      - name: Checkout code
+      - name: Check out Git repository
         uses: actions/checkout@v4
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          path: dist/
+          path: dist-artifacts
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            dist/dist-windows-latest/**/*.exe
-            dist/dist-windows-latest/**/*.msi
-            dist/dist-macos-latest/**/*.dmg
-            dist/dist-ubuntu-latest/**/*.AppImage
-            dist/dist-ubuntu-latest/**/*.deb
+            dist-artifacts/**/*
           draft: false
           prerelease: false
           generate_release_notes: true

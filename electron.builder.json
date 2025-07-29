@@ -28,5 +28,10 @@
     "allowToChangeInstallationDirectory": true,
     "createDesktopShortbook": true,
     "createStartMenuShortcut": true
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "mohamed-mdj",
+    "repo": "resource-monitor"
   }
 }

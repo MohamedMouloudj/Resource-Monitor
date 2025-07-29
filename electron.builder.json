@@ -1,6 +1,6 @@
 {
-  "appId": "com.mohamed-mdj.electron-learning",
-  "productName": "Electron Learning",
+  "appId": "com.mohamed-mdj.resource-monitor",
+  "productName": "Resource Monitor",
   "copyright": "Copyright © 2025 Mohamed MDJ",
   "files": ["dist-electron", "dist-react"],
   "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],

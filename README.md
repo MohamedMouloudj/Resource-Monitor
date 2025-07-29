@@ -2,6 +2,19 @@
 
 A real-time system resource monitoring application built with Electron, React, and TypeScript. This desktop application provides live monitoring of CPU, Memory, and Storage usage with an intuitive dark-themed interface and line chart visualization.
 
+## 🔒 Security & Safety
+
+**This application is designed for learning Electron development and is completely safe to use:**
+
+- **No malicious code**: This is an open-source learning project with no harmful functionality
+- **Local-only operation**: All data processing happens locally on your machine
+- **No data collection**: The app does not collect, store, or transmit any personal data
+- **Read-only access**: Only reads system resource information, never modifies files or settings
+- **Transparent code**: All source code is visible and can be reviewed
+- **Educational purpose**: Built specifically for learning Electron development concepts
+
+The app only accesses system resource information (CPU, memory, storage usage) for display purposes and does not perform any system modifications or data collection.
+
 ## Features
 
 - **Real-time Monitoring**: Live tracking of system resources with 1-second polling intervals

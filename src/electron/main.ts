@@ -3,11 +3,14 @@ import { ipcMainHandle, isDev } from "./util.js";
 import { getStaticData, pollResources } from "./resourceManage.js";
 
 import { getPreloadPath, getUIPath } from "./pathResolvers.js";
+import { createTray } from "./tray.js";
+import { createMenu } from "./menu.js";
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
     width: 1000,
     height: 800,
+    // frame: false,
     webPreferences: {
       preload: getPreloadPath(),
     },
@@ -20,4 +23,30 @@ app.on("ready", () => {
 
   pollResources(mainWindow);
   ipcMainHandle("getStaticData", () => getStaticData());
+
+  createTray(mainWindow);
+  handleCloseEvents(mainWindow);
+
+  createMenu(mainWindow);
 });
+
+function handleCloseEvents(mainWindow: BrowserWindow) {
+  let willClose = false;
+  mainWindow.on("close", (e) => {
+    if (willClose) {
+      return;
+    }
+    e.preventDefault();
+    mainWindow.hide();
+    if (app.dock) {
+      app.dock.hide();
+    }
+  });
+
+  app.on("before-quit", () => {
+    willClose = true;
+  });
+  mainWindow.on("show", () => {
+    willClose = false;
+  });
+}

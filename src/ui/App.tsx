@@ -1,35 +1,38 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useMemo } from "react";
+import useStatistics from "./hooks/useStatistics";
+import { ChartLineMultiple } from "./components/chart-line-multiple";
 
+const DATA_POINT_COUNT = 10;
 function App() {
-  const [count, setCount] = useState(0);
+  const statistics = useStatistics(DATA_POINT_COUNT);
+  const resourceUsage = useMemo(() => {
+    return statistics.map((stat, index) => {
+      const now = new Date();
+      const timeOffset = (DATA_POINT_COUNT - index - 1) * 1000;
+      const time = new Date(now.getTime() - timeOffset);
 
-  useEffect(() => {
-    const unsub = window.electron.subscribeToResourceStats((stats) =>
-      console.log(stats)
-    );
-    return () => unsub();
-  }, []);
+      return {
+        time: time.toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+        cpuUsage: stat.cpuUsage,
+        memoryUsage: stat.memoryUsage,
+        storageUsage: stat.storageUsage,
+      };
+    });
+  }, [statistics]);
 
   return (
     <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="w-full h-svh">
+        <ChartLineMultiple
+          data={resourceUsage}
+          maxPointCount={DATA_POINT_COUNT}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }

@@ -1,69 +1,134 @@
-# React + TypeScript + Vite
+# Electron Resource Monitor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A real-time system resource monitoring application built with Electron, React, and TypeScript. This desktop application provides live monitoring of CPU, Memory, and Storage usage with an intuitive dark-themed interface.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Real-time Monitoring**: Live tracking of system resources with 1-second polling intervals
+- **Multi-platform Support**: Works on Windows, macOS, and Linux
+- **Dark Mode Interface**: Modern dark-themed UI for better visibility
+- **Line Chart Visualization**: Clean line charts showing resource usage trends over time
+- **Storage Optimization**: Intelligent storage polling (every 15 seconds) to reduce system load
+- **Multi-drive Support**: On Windows, monitors all available drives (C:, D:, E:, etc.)
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Frontend
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React 18** - UI framework with hooks and functional components
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Recharts** - Chart library for data visualization
+- **Lucide React** - Icon library
+- **Vite** - Fast build tool and development server
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Backend
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Electron** - Cross-platform desktop application framework
+- **Node.js** - Runtime environment
+- **os-utils** - System resource monitoring library
+- **fs** - File system operations for storage monitoring
+
+### Development Tools
+
+- **ESLint** - Code linting and formatting
+- **TypeScript** - Static type checking
+- **Electron Builder** - Application packaging and distribution
+
+## Project Structure
+
+```
+electron-learning/
+├── src/
+│   ├── electron/          # Electron main process
+│   │   ├── main.ts        # Main process entry point
+│   │   ├── resourceManage.ts  # Resource monitoring logic
+│   │   └── preload.cts    # Preload script for IPC
+│   └── ui/                # React frontend
+│       ├── components/     # React components
+│       ├── hooks/          # Custom React hooks
+│       └── main.tsx        # React entry point
+├── package.json           # Dependencies and scripts
+└── electron.builder.json  # Electron builder configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd electron-learning
 ```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+## Key Features Explained
+
+### Resource Monitoring
+
+- **CPU Usage**: Real-time CPU utilization percentage
+- **Memory Usage**: Current memory consumption vs total available
+- **Storage Usage**: Combined usage across all drives (Windows) or root filesystem (Unix)
+
+### Chart Visualization
+
+- **Line Charts**: Clean, non-stacked line charts for each resource
+- **Time Series**: Shows resource usage over the last 10 data points
+- **Real-time Updates**: Charts update every second for CPU/Memory, every 15 seconds for Storage
+
+### Cross-platform Compatibility
+
+- **Windows**: Monitors all available drives (A-Z)
+- **Unix/Linux/macOS**: Monitors root filesystem
+- **Error Handling**: Graceful handling of inaccessible drives
+
+## Development
+
+### Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
+
+### Architecture
+
+- **Main Process**: Handles system resource monitoring and IPC communication
+- **Renderer Process**: React UI with real-time chart updates
+- **Preload Script**: Secure bridge between main and renderer processes
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.

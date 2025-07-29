@@ -3,7 +3,7 @@
   "productName": "Electron Learning",
   "copyright": "Copyright © 2025 Mohamed MDJ",
   "files": ["dist-electron", "dist-react"],
-  "extraResources": ["dist-electron/preload.cjs"],
+  "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],
   "icon": "./app.png",
   "mac": {
     "target": ["dmg"]

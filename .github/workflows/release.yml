@@ -12,7 +12,13 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        include:
+          - os: windows-latest
+            build: dist:win
+          - os: macos-latest
+            build: dist:mac
+          - os: ubuntu-latest
+            build: dist:linux
 
     steps:
       - name: Check out Git repository
@@ -33,21 +39,8 @@ jobs:
           npm run build
 
       # Build the app (no signing)
-      - name: Build & Release (macOS)
-        if: startsWith(matrix.os, 'macos')
-        run: npm run dist:mac
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build & Release (Windows)
-        if: startsWith(matrix.os, 'windows')
-        run: npm run dist:win
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build & Release (Linux)
-        if: startsWith(matrix.os, 'ubuntu')
-        run: npm run dist:linux
+      - name: Build & Release
+        run: npm run ${{ matrix.build }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

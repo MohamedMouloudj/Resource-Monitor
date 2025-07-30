@@ -1,6 +1,8 @@
 {
   "appId": "com.mohamed-mdj.resource-monitor",
   "productName": "Resource Monitor",
+  "description": "System resource monitoring application",
+  "author": "Mohamed Mouloudj",
   "copyright": "Copyright © 2025 Mohamed MDJ",
   "files": ["dist-electron", "dist-react", "app.png"],
   "extraResources": [
@@ -11,22 +13,22 @@
   ],
   "mac": {
     "target": ["dmg"],
-    "icon": "./app.ico",
+    "icon": "./app.png",
     "category": "public.app-category.utilities"
   },
   "win": {
     "target": ["nsis", "portable"],
-    "icon": "./app.png"
+    "icon": "./app.ico"
   },
   "linux": {
-    "target": ["AppImage", "deb"],
+    "target": ["deb"],
     "icon": "./app.png",
     "category": "Utility"
   },
   "nsis": {
     "oneClick": false,
     "allowToChangeInstallationDirectory": true,
-    "createDesktopShortbook": true,
+    "createDesktopShortcut": true,
     "createStartMenuShortcut": true
   },
   "publish": {
